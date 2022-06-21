@@ -26,6 +26,13 @@ public with sharing class CTLocationController {
          return null;
     }
 
+    public static Map<String,Integer> getStatusCount() {
+          Map<String,Integer> locationCount = new Map<String,Integer>();
+        for(AggregateResult result:[SELECT Status__c,COUNT(Id) Total FROM Location__c GROUP BY Status__c]){
+          locationCount.put(String.valueOf(result.get('Status__c')), Integer.valueOf(result.get('Total')));
+        }
 
+        return locationCount;
+    }
 
 }
