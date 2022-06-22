@@ -27,4 +27,31 @@ public with sharing class ContactTriggerHandler {
 
             AccountContactService.updateActiveContact(accountIds);
     }
+
+    public static void afterDeleteHandler(List<Contact> oldContacts) {
+        Set<Id> accountIds = new Set<Id>();
+        for(Contact con: oldContacts) {
+            
+            if(String.isNotBlank(con.AccountId)) {
+                accountIds.add(con.AccountId);
+                
+            }
+
+        }
+        AccountContactService.updateActiveContact(accountIds);
+    }
+
+
+    public static void afterUnDeleteHandler(List<Contact> newContacts) {
+        Set<Id> accountIds = new Set<Id>();
+        for(Contact con: newcontact) {
+            
+            if(String.isNotBlank(con.AccountId)) {
+                accountIds.add(con.AccountId);
+                
+            }
+
+        }
+        AccountContactService.updateActiveContact(accountIds);
+    }
 }
