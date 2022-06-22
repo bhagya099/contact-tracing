@@ -44,7 +44,7 @@ public with sharing class ContactTriggerHandler {
 
     public static void afterUnDeleteHandler(List<Contact> newContacts) {
         Set<Id> accountIds = new Set<Id>();
-        for(Contact con: newcontact) {
+        for(Contact con: newContacts) {
             
             if(String.isNotBlank(con.AccountId)) {
                 accountIds.add(con.AccountId);
