@@ -14,7 +14,7 @@ public with sharing class CTLocationController {
    }
 
     
-    public static Location__c getLocationById(String locationId) {
+       public static Location__c getLocationById(String locationId) {
         
         List<Location__c> location = [SELECT Id, Name, Address__c, Pincode__c, Red_Score__c, Status_Update_Date__c, Status__c 
                                         FROM Location__c
@@ -24,18 +24,10 @@ public with sharing class CTLocationController {
          }
 
          return null;
-    }
+      }
 
-    public static Map<String,Integer> getStatusCount() {
-          Map<String,Integer> locationCount = new Map<String,Integer>();
-        for(AggregateResult result:[SELECT Status__c,COUNT(Id) Total FROM Location__c GROUP BY Status__c]){
-          locationCount.put(String.valueOf(result.get('Status__c')), Integer.valueOf(result.get('Total')));
-        }
-
-        return locationCount;
-    }
       
-    public static void updateRedScore(Set<Id> locationIds) {
+      public static void updateRedScore(Set<Id> locationIds) {
           List<Location__c> locationToUpdate = new List<Location__c>();
           List<AggregateResult> redPeopleLocation  =   [SELECT Location__c, COUNT(Id) total FROM Location_Tracing__c 
                         WHERE Person__r.Health_Status__c= 'Red'
@@ -68,6 +60,19 @@ public with sharing class CTLocationController {
           return 'Red';
          }
     }
+
+    public static Map<String,Integer> getHealthStatusCount() {
+            AggregateResult[] healthCountMap = [SELECT Status__c, COUNT(Id) FROM Location__c GROUP BY Status__c];
+
+            if(healthCountMap!= null && healthCountMap.size() > 0) {
+               Map<String,Integer> result = new Map<String,Integer>();
+               for(AggregateResult arr: healthCountMap) {
+                      result.put(String.valueOf(arr.get('Health_Status__c')), Integer.valueOf(arr.get('total')));
+               }
+               return result;
+            }
+            return null;
+         }
 
 
 }
