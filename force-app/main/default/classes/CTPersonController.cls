@@ -38,18 +38,6 @@ public with sharing class CTPersonController {
           
           }
 
-         public static Map<String,Integer> getHealthStatusCount() {
-             Map<String,Integer> healthCountMap = new Map<String,Integer>();
-             for(AggregateResult arr :  [SELECT Health_Status__c, COUNT(Id) total 
-                                          FROM Person__c  
-                                          GROUP BY Health_Status__c]) {
-                        // putting the calues in variable and convert thier output in integer and string
-                     healthCountMap.put(String.valueOf(arr.get('Health_Status__c')),Integer.valueOf(arr.get('total')));
-                 }
-
-           return healthCountMap;
-        }
-         
 
         public static Set<Id> getCohabitants(Set<Id> personIds,Set<Id> alreadyProcessed) {
             List<String> healthStatus = new List<String>{'Green', 'Yellow'};
@@ -141,5 +129,18 @@ public with sharing class CTPersonController {
 
            return secondaryContacts;
          }  
+
+         public static Map<String,Integer> getHealthStatusCount() {
+            AggregateResult[] healthCountMap = [SELECT Health_Status__c, COUNT(Id) total FROM Person__c GROUP BY Health_Status__c];
+
+            if(healthCountMap!= null && healthCountMap.size() > 0) {
+               Map<String,Integer> result = new Map<String,Integer>();
+               for(AggregateResult arr: healthCountMap) {
+                      result.put(String.valueOf(arr.get('Health_Status__c')), Integer.valueOf(arr.get('total')));
+               }
+               return result;
+            }
+            return null;
+         }
  }
   
