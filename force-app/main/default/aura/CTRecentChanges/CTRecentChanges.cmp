@@ -2,6 +2,7 @@
 
     <aura:attribute name="issearching" type="Boolean" default="false" />
     <aura:attribute name="data" type="List" default="false" />
+    <aura:attribute name="intialResponse" type="List" />
     <aura:attribute name="columns" type="List" default="false" />
     <aura:attribute name="scope" type="String" default="" />
 
@@ -9,8 +10,10 @@
 
     <lightning:card title="Recent Update">
         <aura:set attribute="actions">
-            <lightning:input name="search" label="Hit Enter to search" aura:id="enter-search"
-                isLoading="{! v.issearching }" type="search" placeholder="Search Here" />
+            <div onkeyup="{! c.handleKeyUp }">
+                <lightning:input name="search" label="Hit Enter to search" aura:id="enter-search"
+                    isLoading="{! v.issearching }" type="search" placeholder="Search Here" />
+            </div>
         </aura:set>
 
         <lightning:datatable keyField="id" data="{! v.data }" columns="{! v.columns }" hideCheckboxColumn="true" />
