@@ -20,6 +20,16 @@
           label: "Status Update date",
           fieldName: "Status_Update_Date__c",
           type: "date"
+        },
+        {
+          label: "View",
+          type: "button",
+          initialWidth: 135,
+          typeAttributes: {
+            label: "View/Update",
+            name: "view_details",
+            title: "Click to View Details"
+          }
         }
       ]);
     } else {
@@ -46,6 +56,16 @@
           label: "Status Update date",
           fieldName: "Status_Update_Date__c",
           type: "date"
+        },
+        {
+          label: "View",
+          type: "button",
+          initialWidth: 135,
+          typeAttributes: {
+            label: "View/Update",
+            name: "view_details",
+            title: "Click to View Details"
+          }
         }
       ]);
     }
@@ -57,11 +77,33 @@
     let isEnterKey = event.keyCode === 13;
     let queryTerm = component.find("enter-search").get("v.value");
     if (!queryTerm) {
+      console.log("frpm intial value");
+      console.log(component.get("v.intialResponse"));
       component.set("v.data", component.get("v.intialResponse"));
     }
     if (isEnterKey) {
       component.set("v.issearching", true);
       helper.serachRecord(component, queryTerm);
+    }
+  },
+  handleRowAction: function (component, event, helper) {
+    console.log("from hadle row action");
+    let action = event.getParam("action");
+    let row = event.getParam("row");
+    const scope = component.get("v.scope");
+    switch (action.name) {
+      case "view_details":
+        const appEvent =
+          scope === "person"
+            ? $A.get("e.c:CTPersonSelectEvent")
+            : $A.get("e.c:CTLocationSelectEvent");
+        appEvent.setParams({
+          recordId: row.Id,
+          status: scope === "person" ? row.Health_Status__c : row.Status__c
+        });
+
+        appEvent.fire();
+        break;
     }
   }
 });

@@ -2,11 +2,13 @@
 
     <aura:attribute name="issearching" type="Boolean" default="false" />
     <aura:attribute name="data" type="List" default="false" />
-    <aura:attribute name="intialResponse" type="List" />
+
     <aura:attribute name="columns" type="List" default="false" />
     <aura:attribute name="scope" type="String" default="" />
+    <aura:attribute name="intialResponse" type="List" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
 
     <lightning:card title="Recent Update">
         <aura:set attribute="actions">
@@ -16,6 +18,7 @@
             </div>
         </aura:set>
 
-        <lightning:datatable keyField="id" data="{! v.data }" columns="{! v.columns }" hideCheckboxColumn="true" />
+        <lightning:datatable keyField="id" data="{! v.data }" columns="{! v.columns }" hideCheckboxColumn="true"
+            onrowselection="{! c.handleRowAction }" />
     </lightning:card>
 </aura:component>

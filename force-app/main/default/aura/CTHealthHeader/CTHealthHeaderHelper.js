@@ -10,8 +10,6 @@
 
       if (state === "SUCCESS") {
         component.set("v.count", response.getReturnValue());
-        console.log(component.get("v.count"));
-        console.log(component.get("v.scope"));
       }
     });
 
