@@ -27,7 +27,7 @@
                                     Pincode
                                 </div>
                                 <div class="row-item-value">
-                                    {!v.locationInfo.pincode}
+                                    {!v.locationInfo.pinCode}
                                 </div>
                             </div>
                             <div class="row-item">
