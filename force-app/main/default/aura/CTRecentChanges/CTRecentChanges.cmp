@@ -19,6 +19,6 @@
         </aura:set>
 
         <lightning:datatable keyField="id" data="{! v.data }" columns="{! v.columns }" hideCheckboxColumn="true"
-            onrowselection="{! c.handleRowAction }" />
+            onrowaction="{! c.handleRowAction }" />
     </lightning:card>
 </aura:component>

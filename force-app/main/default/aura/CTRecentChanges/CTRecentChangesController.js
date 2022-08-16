@@ -77,8 +77,6 @@
     let isEnterKey = event.keyCode === 13;
     let queryTerm = component.find("enter-search").get("v.value");
     if (!queryTerm) {
-      console.log("frpm intial value");
-      console.log(component.get("v.intialResponse"));
       component.set("v.data", component.get("v.intialResponse"));
     }
     if (isEnterKey) {
@@ -87,10 +85,10 @@
     }
   },
   handleRowAction: function (component, event, helper) {
-    console.log("from hadle row action");
     let action = event.getParam("action");
     let row = event.getParam("row");
     const scope = component.get("v.scope");
+
     switch (action.name) {
       case "view_details":
         const appEvent =

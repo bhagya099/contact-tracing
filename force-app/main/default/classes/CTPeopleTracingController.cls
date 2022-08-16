@@ -2,8 +2,12 @@ public with sharing class CTPeopleTracingController {
 
 
     public static List<People_Tracing__c> getTraces(String personID) {
-        return [SELECT Id, Contact_Date__c, Person_1__r.Health_Status__c, Person_1__r.Token__c, Person_2__r.Health_Status__c, Person_2__r.Token__c FROM People_Tracing__c WHERE Person_1__c =: personID OR Person_2__c =: personID
-                 ORDER BY Contact_Date__c DESC];
+        return [SELECT Id, Contact_Date__c, 
+                   Person_1__r.Health_Status__c, Person_1__r.Token__c, Person_2__r.Health_Status__c, Person_2__r.Token__c 
+                   FROM People_Tracing__c 
+                   WHERE (Person_1__c =: personID OR Person_2__c =: personID)
+                   AND Contact_Date__c = LAST_N_DAYS:30
+                   ORDER BY Contact_Date__c DESC];
     }
 
     public static List<People_Tracing__c> checkDuplicates(List<People_Tracing__c> newPeopleTraces) {
